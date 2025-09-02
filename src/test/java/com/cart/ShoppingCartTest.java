@@ -25,6 +25,16 @@ class ShoppingCartTest {
 	}
 
 	@Test
+	void testAddItemIsInvalid() {
+		try {
+			cart.addItem(new Item(0, "clothes", 50.0));
+			fail("Expected IllegalArgumentException not thrown");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Invalid input!!", e.getMessage());
+		}
+	}
+
+	@Test
 	void testRemoveItem() {
 		cart.addItem(item1);
 		cart.addItem(item2);
@@ -46,13 +56,32 @@ class ShoppingCartTest {
 	void testCalculateTotalAmount() {
 		assertEquals(0.0, cart.calculateTotalAmount());
 	}
-	
+
 	@Test
 	void testViewCart() {
-	    cart.addItem(item1);
-	    cart.addItem(item2);
-	    assertEquals(2, cart.viewCart().size());
-	    assertTrue(cart.viewCart().contains(item1));
-	    assertTrue(cart.viewCart().contains(item2));
+		cart.addItem(item1);
+		cart.addItem(item2);
+		assertEquals(2, cart.viewCart().size());
+		assertTrue(cart.viewCart().contains(item1));
+		assertTrue(cart.viewCart().contains(item2));
+	}
+	
+	
+	@Test
+	void testUpdateItem() {
+		cart.addItem(item1);
+		cart.addItem(item2);
+		cart.updateItem(new Item(1, "clothes", 50.0));
+		assertEquals(70.0 , cart.calculateTotalAmount());
+	}
+	
+	@Test
+	void testUpdateItemNotFound() {
+		try {
+			cart.updateItem(new Item(3,"clothes", 50.0));
+			fail("Expected IllegalArgumentException not thrown");
+		}catch(IllegalArgumentException e) {
+			assertEquals("Item not found!!!" ,e.getMessage());
+		}
 	}
 }

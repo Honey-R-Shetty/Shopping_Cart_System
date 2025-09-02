@@ -24,6 +24,21 @@ public class ShoppingCart {
 			throw new IllegalArgumentException("Item not found!!!");
 		}
 	}
+	
+	public void updateItem(Item item) {
+		boolean isFound = false;
+		for(Item prod : list) {
+			if(prod.getId()==item.getId()) {
+				prod.setName(item.getName());
+				prod.setPrice(item.getPrice());
+				isFound= true;
+				break;
+			}
+		}
+		if(!isFound) {
+			throw new IllegalArgumentException("Item not found!!!");
+		}
+	}
 
 	public List<Item> viewCart() {
 		return new ArrayList<>(list);
@@ -34,7 +49,7 @@ public class ShoppingCart {
 		for (Item item : list) {
 			totalAmount += item.getPrice();
 		}
-		list.clear();
 		return totalAmount;
 	}
+
 }
